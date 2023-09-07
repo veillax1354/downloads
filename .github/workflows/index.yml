@@ -1,32 +1,7 @@
-name: Generate Index
-
-on:
-  push:
-    branches:
-      - main # Change this to your default branch
-
-jobs:
-  generate-index:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Install Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.x # Change this to the desired Python version
-
-      - name: Generate Index
-        run: python files/index.py  # Change this to the script that generates the index
-
-      - name: Commit Index File
-        run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
-          git add __index__.json
-          git commit -m "Update index" || true
-          git remote set-url origin "https://${{ secrets.GITHUB_ACTOR }}:${{ secrets.ACTIONS_PAT }}@github.com/${{ github.repository }}"
-          git push
-        env:
-          ACTIONS_PAT: ${{ secrets.ACTIONS_PAT }}
+- name: Index files
+  # You may pin to the exact commit or the version.
+  # uses: prygunov/indexator@5448660d38a2570e6cfbbc9eb15d63b77f384e3c
+  uses: prygunov/indexator@0.1
+  with:
+    # File type (txt or json)
+    file-type: # optional, default is json
