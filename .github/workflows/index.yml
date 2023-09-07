@@ -1,0 +1,31 @@
+name: Generate Index
+on:
+  push:
+    branches:
+      - main # Change this to your default branch
+
+jobs:
+  generate-index:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x # Change this to the desired Python version
+
+      - name: Install Dependencies
+        run: pip install -r requirements.txt  # Create a requirements.txt file if needed
+
+      - name: Generate Index
+        run: python index.py  # Change this to the script that generates the index
+
+      - name: Commit Index File
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git __index__.json
+          git commit -m "Update __index__.json" || true
+          git push
